@@ -3,19 +3,20 @@
 #include <SoftwareSerial.h>
 #include <Wire.h>
 
-#define rxPin 4   
+#define rxPin 4    //bluetooth pins
 #define txPin 3
-#define DOUT  5
+
+#define DOUT  5    //hx711 pins
 #define CLK  6                        
 
-SoftwareSerial mySerial(rxPin, txPin);  //RX, TX 
+SoftwareSerial mySerial(rxPin, txPin);  //rx and tx für bluetooth
 HX711 scale(DOUT, CLK);                 //create a scale instance
 Kalman kalmanY;                         //create the Kalman instance
 
 /* I2C Communication with IMU */
 const uint8_t IMUAddress = 0x68; 
 const uint16_t I2C_TIMEOUT = 1000; // Used to check for errors in I2C communication
-uint8_t i2cData[14];              //buffer for I2C data
+uint8_t i2cData[14];               //buffer for I2C data
 
 /* IMU */
 double accX, accY, accZ;
@@ -51,8 +52,7 @@ int indicator=1;
 
 void setup() {
   mySerial.begin(38400);                        //bluetooth device communicates with this baudrate with Arduino 
-  //Serial.begin(115200);                       //to output debuging data via USB
-  Serial.begin(38400);                          //use this with stamp plot
+  Serial.begin(115200);                         //to output debuging data via USB
   scale.set_scale();
   scale.tare();                                 //reset the scale to 0
   long zero_factor = scale.read_average();      //get a baseline reading
